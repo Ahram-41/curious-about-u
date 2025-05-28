@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { QuestionnaireForm } from "@/components/questionnaire-form"
 import { ReportView } from "@/components/report-view"
+import { GitHubButton } from "@/components/github-button"
 import type { FormData } from "@/types/questionnaire"
 import { Crown, Sparkles, Heart } from "lucide-react"
 
@@ -32,12 +33,26 @@ export default function Home() {
   }
 
   if (showReport) {
-    return <ReportView data={formData} onBack={() => setShowReport(false)} />
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 via-rose-50 to-fuchsia-100 p-4 relative overflow-hidden">
+        {/* GitHub按钮 - 移动端友好位置 */}
+        <div className="fixed top-4 right-4 z-[100] xl:top-6 xl:right-6">
+          <GitHubButton />
+        </div>
+        
+        <ReportView data={formData} onBack={() => setShowReport(false)} />
+      </div>
+    )
   }
 
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 via-rose-50 to-fuchsia-100 p-4 relative overflow-hidden">
+        {/* GitHub按钮 - 移动端友好位置 */}
+        <div className="fixed top-4 right-4 z-[100] xl:top-6 xl:right-6">
+          <GitHubButton />
+        </div>
+
         {/* 装饰性背景元素 */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-10 left-10 w-20 h-20 bg-pink-200/30 rounded-full blur-xl animate-pulse"></div>
@@ -102,6 +117,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 via-rose-50 to-fuchsia-100 p-4 relative overflow-hidden">
+      {/* GitHub按钮 - 移动端友好位置 */}
+      <div className="fixed top-4 right-4 z-[100] xl:top-6 xl:right-6">
+        <GitHubButton />
+      </div>
+
       {/* 装饰性背景元素 */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 left-10 w-20 h-20 bg-pink-200/30 rounded-full blur-xl animate-pulse"></div>
