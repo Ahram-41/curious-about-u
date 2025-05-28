@@ -1,5 +1,7 @@
 # 🌟 Questionnaire App
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Ahram-41/curious-about-u)
+
 A beautiful, interactive questionnaire application built with Next.js, React, and Tailwind CSS. This app provides a delightful user experience for collecting personal interests, preferences, and lifestyle information through a multi-step form with a dreamy, modern UI.
 
 ## ✨ Features

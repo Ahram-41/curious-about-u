@@ -2,7 +2,7 @@
 
 ## 🎯 一键部署
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Ahram-41/want-to-know-you-better)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Ahram-41/curious-about-u)
 
 ## 📝 手动部署步骤
 
