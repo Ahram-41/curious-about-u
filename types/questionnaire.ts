@@ -74,7 +74,6 @@ export interface FormData {
   quirks?: string
   allergies?: string
   perfumePreference?: string // 香水偏好：柑橘还是茉莉
-  dollMakeup?: string // 属性娃娃的舞台妆造
   canCook?: string // 会不会做饭
   isPicky?: string // 会不会挑食
   actingCute?: string // 撒娇是什么样子
@@ -93,7 +92,6 @@ export interface FormData {
   movieType?: string // 喜欢看什么类型的小电影
   flirtingStyle?: string // 喜欢以什么样的方式调情
   conflictResolution?: string // 吵架的时候会以什么方式解决
-  eyebrowStory?: string // 为什么眉毛有一边只有一半
 
   // 个人想法
   lifeGoals?: string

@@ -1416,19 +1416,6 @@ export function QuestionnaireForm({
           </div>
 
           <div>
-            <Label htmlFor="dollMakeup" className="text-indigo-700 font-medium">
-              属性娃娃的舞台妆造 🎭
-            </Label>
-            <Textarea
-              id="dollMakeup"
-              placeholder="描述您买的属性娃娃里面每一只娃娃对应的舞台妆造..."
-              value={stepData.dollMakeup || formData.dollMakeup || ""}
-              onChange={(e) => updateStepData("dollMakeup", e.target.value)}
-              className="border-indigo-200 focus:border-indigo-400 focus:ring-indigo-400"
-            />
-          </div>
-
-          <div>
             <Label htmlFor="actingCute" className="text-indigo-700 font-medium">
               撒娇是什么样子 🥺
             </Label>
@@ -1606,19 +1593,6 @@ export function QuestionnaireForm({
               placeholder="描述您吵架的时候会以什么方式解决..."
               value={stepData.conflictResolution || formData.conflictResolution || ""}
               onChange={(e) => updateStepData("conflictResolution", e.target.value)}
-              className="border-indigo-200 focus:border-indigo-400 focus:ring-indigo-400"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="eyebrowStory" className="text-indigo-700 font-medium">
-              为什么眉毛有一边只有一半 🤨
-            </Label>
-            <Textarea
-              id="eyebrowStory"
-              placeholder="描述为什么您的眉毛有一边只有一半..."
-              value={stepData.eyebrowStory || formData.eyebrowStory || ""}
-              onChange={(e) => updateStepData("eyebrowStory", e.target.value)}
               className="border-indigo-200 focus:border-indigo-400 focus:ring-indigo-400"
             />
           </div>

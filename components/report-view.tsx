@@ -193,7 +193,6 @@ MBTI: ${data.mbti || "未填写"}
 会不会挑食: ${data.isPicky || "未填写"}
 好不好骗: ${data.isGullible || "未填写"}
 会不会抽烟: ${data.smoking || "未填写"}
-属性娃娃的舞台妆造: ${data.dollMakeup || "未填写"}
 撒娇是什么样子: ${data.actingCute || "未填写"}
 睡眠质量: ${data.sleepQuality || "未填写"}
 睡觉会不会踢被子: ${data.kickBlanket || "未填写"}
@@ -208,7 +207,6 @@ MBTI: ${data.mbti || "未填写"}
 喜欢看什么类型的小电影: ${data.movieType || "未填写"}
 喜欢以什么样的方式调情: ${data.flirtingStyle || "未填写"}
 吵架的时候会以什么方式解决: ${data.conflictResolution || "未填写"}
-为什么眉毛有一边只有一半: ${data.eyebrowStory || "未填写"}
 
 === 💖 个人想法 ===
 未来规划: ${data.lifeGoals || "未填写"}
@@ -1108,14 +1106,6 @@ ${reportContent}
                 
                 <div className="bg-white/60 p-4 rounded-xl border border-indigo-100 shadow-sm">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-lg">🎭</span>
-                    <span className="text-sm text-indigo-600 font-medium">属性娃娃的舞台妆造:</span>
-                  </div>
-                  <p className="text-indigo-700 leading-relaxed">{data.dollMakeup || "未填写"}</p>
-                </div>
-                
-                <div className="bg-white/60 p-4 rounded-xl border border-indigo-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
                     <span className="text-lg">🥺</span>
                     <span className="text-sm text-indigo-600 font-medium">撒娇是什么样子:</span>
                   </div>
@@ -1224,14 +1214,6 @@ ${reportContent}
                     <span className="text-sm text-indigo-600 font-medium">吵架的时候会以什么方式解决:</span>
                   </div>
                   <p className="text-indigo-700 leading-relaxed">{data.conflictResolution || "未填写"}</p>
-                </div>
-                
-                <div className="bg-white/60 p-4 rounded-xl border border-indigo-100 shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-lg">🤨</span>
-                    <span className="text-sm text-indigo-600 font-medium">为什么眉毛有一边只有一半:</span>
-                  </div>
-                  <p className="text-indigo-700 leading-relaxed">{data.eyebrowStory || "未填写"}</p>
                 </div>
               </div>
             </section>

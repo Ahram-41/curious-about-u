@@ -1,19 +1,22 @@
-# 🌟 Questionnaire App
+# 🌟 Curious About U Questionnaire
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Ahram-41/curious-about-u)
 
-A beautiful, interactive questionnaire application built with Next.js, React, and Tailwind CSS. This app provides a delightful user experience for collecting personal interests, preferences, and lifestyle information through a multi-step form with a dreamy, modern UI.
+A beautiful, interactive personal interest questionnaire application built with Next.js, React, and Tailwind CSS. This app provides a delightful user experience for collecting comprehensive personal preferences, lifestyle habits, and personality insights through a multi-step form with a dreamy, modern UI.
 
 ## ✨ Features
 
-- **Multi-step Form**: 7-step questionnaire covering various aspects of personal interests
-- **Beautiful UI**: Gradient backgrounds, animated elements, and modern design
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Real-time Progress**: Visual progress indicator showing completion status
-- **Form Validation**: Built-in validation using React Hook Form and Zod
-- **Report Generation**: Detailed report view of submitted responses
-- **Chinese Language Support**: Interface in Chinese with emoji decorations
-- **Smooth Animations**: Engaging animations and transitions throughout
+- **8-Step Comprehensive Questionnaire**: Detailed exploration of personal characteristics and preferences
+- **Beautiful Dreamy UI**: Gradient backgrounds, floating animations, and modern pastel design
+- **Fully Responsive**: Seamless experience across desktop, tablet, and mobile devices
+- **Visual Progress Tracking**: Interactive progress indicator with step navigation
+- **Smart Form Management**: Real-time data persistence and validation
+- **Rich Report Generation**: Beautiful visual reports with organized data presentation
+- **Multiple Export Options**: Download as text (.txt), high-quality image (.png), or PDF document
+- **Advanced Email Sharing**: Send reports via email with automatic image attachments
+- **Chinese Interface**: Thoughtfully designed Chinese UI with emoji decorations
+- **Smooth Animations**: Engaging micro-interactions and transitions throughout
+- **Privacy-First**: All data processing happens client-side, no server storage
 
 ## 🚀 Getting Started
 
@@ -27,7 +30,7 @@ A beautiful, interactive questionnaire application built with Next.js, React, an
 1. Clone the repository:
 ```bash
 git clone <your-repository-url>
-cd questionnaire-app
+cd curious-about-u
 ```
 
 2. Install dependencies:
@@ -53,60 +56,68 @@ npm run dev
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
 - **[shadcn/ui](https://ui.shadcn.com/)** - Re-usable components built with Radix UI
-- **[React Hook Form](https://react-hook-form.com/)** - Performant forms with easy validation
-- **[Zod](https://zod.dev/)** - TypeScript-first schema validation
 - **[Lucide React](https://lucide.dev/)** - Beautiful & consistent icon toolkit
+- **[html2canvas](https://html2canvas.hertzen.com/)** - Screenshots for report generation
+- **[jsPDF](https://github.com/parallax/jsPDF)** - PDF generation
+- **[Pica](https://github.com/nodeca/pica)** - High-quality image resizing
+- **[Resend](https://resend.com/)** - Email delivery service
 
-## 📋 Questionnaire Sections
+## 📋 Questionnaire Structure
 
-The questionnaire covers 7 main areas:
+The questionnaire covers 8 comprehensive sections:
 
-1. **Basic Information** - Name, age, gender, occupation
-2. **Lifestyle Preferences** - Daily routines, habits, and preferences
-3. **Hobbies & Interests** - Entertainment, sports, creative activities
-4. **Food & Dining** - Cuisine preferences, dietary habits
-5. **Travel & Adventure** - Travel experiences and preferences
-6. **Technology & Digital Life** - Device usage, social media habits
-7. **Personal Values** - Life goals, values, and aspirations
+1. **💕 Basic Information** - Personal details, physical characteristics, birthday
+2. **🌸 Appearance Features** - Hair, skin, style preferences
+3. **💜 Personality & Psychology** - MBTI, personality traits, relationships, family
+4. **🎀 Lifestyle Preferences** - Daily habits, food preferences, time patterns
+5. **🌺 Hobbies & Interests** - Entertainment, music, books, sports, favorites
+6. **🎈 Life Habits** - Sleep patterns, quirks, personal routines
+7. **✨ Detailed Characteristics** - Behavioral traits, social interactions, personal habits
+8. **💖 Personal Thoughts** - Values, future plans, preferences, inner thoughts
 
-## 🎨 UI Components
+## 🎨 Key Features
 
-The app uses a comprehensive set of UI components including:
+### Report Generation
+- **Visual Reports**: Beautifully formatted reports with gradient backgrounds and organized sections
+- **Export Options**: 
+  - 📄 Plain text (.txt) for maximum compatibility
+  - 🖼️ High-quality PNG images for sharing
+  - 📑 Professional PDF documents for printing
+- **Email Sharing**: Send reports with automatic image compression and attachment
 
-- Cards and layouts
-- Form inputs (text, radio, checkbox, select)
-- Progress indicators
-- Buttons and navigation
-- Modals and dialogs
-- Badges and separators
-- Responsive design elements
+### Email Functionality
+The app supports multiple email sending methods:
 
-## 📱 Screenshots
+1. **🔥 Email Client (Recommended)** - Opens default mail app, no configuration needed
+2. **⚡ Server-side via Resend** - Direct sending through Vercel API routes
+3. **🌐 Web-based Clients** - Gmail, Outlook, Yahoo Mail integration
+4. **👨‍💻 Contributor Feedback** - Direct feedback to project maintainers
 
-The app features:
-- Gradient backgrounds with animated floating elements
-- Step-by-step form progression
-- Beautiful success page with celebration elements
-- Detailed report view with organized data presentation
+### Smart Features
+- **Auto-save Progress**: Never lose your answers while filling out the form
+- **Image Compression**: Intelligent image optimization for email attachments
+- **Responsive Design**: Optimized for all device sizes
+- **Privacy Protection**: All data stays in your browser
 
 ## 🔧 Development
 
 ### Project Structure
 
 ```
-questionnaire-app/
+curious-about-u/
 ├── app/                    # Next.js app directory
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Main page component
+│   ├── api/               # API routes for email functionality
+│   ├── globals.css        # Global styles and animations
+│   ├── layout.tsx         # Root layout with providers
+│   └── page.tsx           # Main questionnaire page
 ├── components/            # React components
-│   ├── ui/               # shadcn/ui components
-│   ├── questionnaire-form.tsx
-│   ├── report-view.tsx
-│   └── theme-provider.tsx
-├── hooks/                # Custom React hooks
+│   ├── ui/               # shadcn/ui base components
+│   ├── questionnaire-form.tsx  # Multi-step form component
+│   ├── report-view.tsx         # Report generation and display
+│   └── theme-provider.tsx      # Theme management
+├── types/                # TypeScript definitions
+│   └── questionnaire.ts       # Form data types
 ├── lib/                  # Utility functions
-├── types/                # TypeScript type definitions
 ├── public/               # Static assets
 └── styles/               # Additional styles
 ```
@@ -117,16 +128,74 @@ questionnaire-app/
 - `pnpm build` - Build for production
 - `pnpm start` - Start production server
 - `pnpm lint` - Run ESLint
+- `pnpm type-check` - Run TypeScript checks
 
 ### Customization
 
-You can customize the questionnaire by:
+You can easily customize the questionnaire:
 
-1. **Modifying Questions**: Edit the form steps in `components/questionnaire-form.tsx`
-2. **Updating Styles**: Modify Tailwind classes or add custom CSS
-3. **Adding Validation**: Update Zod schemas in the form components
-4. **Changing Language**: Replace Chinese text with your preferred language
-5. **Report Format**: Customize the report layout in `components/report-view.tsx`
+1. **Add/Remove Questions**: Modify form steps in `components/questionnaire-form.tsx`
+2. **Update Styling**: Customize Tailwind classes or add new gradient themes
+3. **Change Language**: Replace Chinese text (or add i18n support)
+4. **Modify Report Layout**: Update `components/report-view.tsx` for different formats
+5. **Add New Fields**: Update TypeScript types in `types/questionnaire.ts`
+
+## 📧 Email Configuration
+
+### Quick Setup (No Configuration Required)
+The app works out-of-the-box with email client integration. Users can always send emails through their default mail app.
+
+### Optional: Enhanced Email Features
+
+#### Option 1: Resend (Recommended for Production)
+```bash
+# Set in Vercel environment variables:
+RESEND_API_KEY=re_xxxxxxxxxx
+FROM_EMAIL=noreply@yourdomain.com
+```
+
+#### Option 2: Contributor Email
+```bash
+# For feedback collection:
+NEXT_PUBLIC_CONTRIBUTOR_EMAIL=your-email@example.com
+```
+
+## 🚀 Deployment
+
+### One-Click Deployment to Vercel
+
+1. **Fork this repository** to your GitHub account
+
+2. **Deploy to Vercel**:
+   - Visit [Vercel](https://vercel.com/)
+   - Click "New Project" and import your forked repository
+   - Vercel will automatically detect Next.js settings
+
+3. **Optional: Configure Email** (for enhanced features):
+   ```bash
+   RESEND_API_KEY=your_resend_api_key
+   FROM_EMAIL=noreply@yourdomain.com
+   NEXT_PUBLIC_CONTRIBUTOR_EMAIL=your-email@example.com
+   ```
+
+4. **Deploy**: Your app will be live in minutes!
+
+### Manual Deployment
+```bash
+# Build the application
+pnpm build
+
+# Start production server
+pnpm start
+```
+
+## 🎯 Use Cases
+
+- **Personal Reflection**: Deep self-discovery questionnaire
+- **Relationship Building**: Share detailed personal preferences with partners
+- **Social Ice Breakers**: Fun way to learn about friends and family
+- **Data Collection**: Comprehensive personal preference research
+- **Gift Planning**: Understand someone's preferences for thoughtful gifts
 
 ## 🤝 Contributing
 
@@ -142,105 +211,12 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- Built with [shadcn/ui](https://ui.shadcn.com/) components
-- Icons by [Lucide](https://lucide.dev/)
+- Beautiful UI components by [shadcn/ui](https://ui.shadcn.com/)
+- Icons provided by [Lucide](https://lucide.dev/)
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Powered by [Next.js](https://nextjs.org/)
-
-## 📧 邮件发送功能
-
-应用支持四种邮件发送方式，特别优化了 Vercel 部署：
-
-### 🔥 1. 邮件客户端发送 (推荐，无需配置)
-- 打开系统默认邮件应用（如 Mail、Outlook、Thunderbird 等）
-- 无需额外配置，即开即用
-- 用户可以在邮件客户端中编辑和发送
-- **最可靠的方式，适合所有用户**
-
-### ⚡ 2. Vercel API + Resend (生产环境推荐)
-使用 Vercel API 路由 + Resend 服务：
-
-1. 注册 [Resend](https://resend.com/) 账户（免费额度：100封/天）
-2. 获取 API 密钥
-3. 在 Vercel 中设置环境变量：
-   ```
-   RESEND_API_KEY=your_resend_api_key
-   FROM_EMAIL=noreply@yourdomain.com
-   ```
-4. 验证域名（可选，提高送达率）
-
-### 🌐 3. EmailJS 客户端发送
-使用 EmailJS 服务直接发送邮件：
-
-1. 访问 [EmailJS](https://www.emailjs.com/) 注册免费账户
-2. 创建邮件服务和模板
-3. 在 Vercel 中设置环境变量：
-   ```
-   NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
-   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
-   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
-   ```
-
-### 👨‍💻 4. 发送给贡献者
-直接发送到项目维护者邮箱，用于收集反馈。
-
-## 🚀 Vercel 部署指南
-
-### 快速部署
-
-1. **Fork 此仓库**到您的 GitHub 账户
-
-2. **连接到 Vercel**：
-   - 访问 [Vercel](https://vercel.com/)
-   - 点击 "New Project"
-   - 导入您的 GitHub 仓库
-
-3. **配置环境变量**（可选，用于邮件功能）：
-   ```bash
-   # Resend 配置（推荐）
-   RESEND_API_KEY=re_xxxxxxxxxx
-   FROM_EMAIL=noreply@yourdomain.com
-   
-   # EmailJS 配置（备选）
-   NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_xxxxxxx
-   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_xxxxxxx
-   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=xxxxxxxxxxxxxxx
-   
-   # 贡献者邮箱
-   NEXT_PUBLIC_CONTRIBUTOR_EMAIL=your-email@example.com
-   ```
-
-4. **部署**：
-   - Vercel 会自动检测 Next.js 项目
-   - 点击 "Deploy" 开始部署
-   - 几分钟后即可访问您的应用
-
-### 邮件服务配置详解
-
-#### 方案A: Resend (推荐)
-```bash
-# 1. 注册 Resend 账户
-# 2. 创建 API 密钥
-# 3. 在 Vercel 环境变量中添加：
-RESEND_API_KEY=re_xxxxxxxxxx
-FROM_EMAIL=noreply@yourdomain.com  # 使用您的域名
-```
-
-#### 方案B: EmailJS (备选)
-```bash
-# 1. 注册 EmailJS 账户
-# 2. 创建邮件服务和模板
-# 3. 在 Vercel 环境变量中添加：
-NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_xxxxxxx
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_xxxxxxx
-NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=xxxxxxxxxxxxxxx
-```
-
-### 🔄 智能回退机制
-- 如果 API 发送失败，自动切换到邮件客户端方式
-- 确保用户始终能够发送邮件
-- 提供最佳的用户体验
+- Powered by [Next.js](https://nextjs.org/) and [Vercel](https://vercel.com/)
+- Email delivery by [Resend](https://resend.com/)
 
 ---
 
-Made with ❤️ for collecting beautiful questionnaire data
+Made with ❤️ for meaningful personal connections and self-discovery
