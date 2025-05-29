@@ -15,6 +15,7 @@ import type { FormData } from "@/types/questionnaire"
 import { ArrowLeft, Download, Heart, Star, Sparkles, Crown, Flower, Mail, Send, ExternalLink, Info, FileText, Image, FileDown } from "lucide-react"
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import Pica from 'pica'
 
 interface ReportViewProps {
   data: FormData
@@ -34,6 +35,76 @@ export function ReportView({ data, onBack }: ReportViewProps) {
     emailClient: "default" // "default", "outlook", "gmail", "yahoo"
   })
   const [isEmailSending, setIsEmailSending] = useState(false)
+
+  // Initialize pica
+  const pica = new Pica()
+
+  // Compress image using Pica for high quality resizing
+  const compressImageWithPica = async (canvas: HTMLCanvasElement, targetSizeKB: number = 3000): Promise<string> => {
+    try {
+      console.log('Original canvas size:', canvas.width, 'x', canvas.height)
+      console.log('Compressing image with Pica...')
+      
+      // Calculate target dimensions to reduce file size
+      const originalSize = canvas.width * canvas.height
+      const targetMaxSize = 1920 * (canvas.height * 1920 / canvas.width) // Max width 1920px
+      
+      let targetWidth = canvas.width
+      let targetHeight = canvas.height
+      
+      // If original is larger than target, resize it
+      if (originalSize > targetMaxSize) {
+        const scaleFactor = Math.sqrt(targetMaxSize / originalSize)
+        targetWidth = Math.floor(canvas.width * scaleFactor)
+        targetHeight = Math.floor(canvas.height * scaleFactor)
+      }
+      
+      console.log('Target dimensions:', targetWidth, 'x', targetHeight)
+      
+      // Create target canvas
+      const targetCanvas = document.createElement('canvas')
+      targetCanvas.width = targetWidth
+      targetCanvas.height = targetHeight
+      
+      // Use Pica to resize with high quality
+      await pica.resize(canvas, targetCanvas, {
+        quality: 3, // High quality
+        unsharpAmount: 80, // Sharpening
+        unsharpRadius: 0.6,
+        unsharpThreshold: 2
+      })
+      
+      // Convert to JPEG with quality adjustment
+      let quality = 0.85 // Start with high quality
+      let dataUrl = ''
+      let attempts = 0
+      const maxAttempts = 5
+      const targetSizeBytes = targetSizeKB * 1024 * 4/3 // Base64 is ~33% larger
+      
+      while (attempts < maxAttempts) {
+        dataUrl = targetCanvas.toDataURL('image/jpeg', quality)
+        const currentSize = dataUrl.length
+        
+        console.log(`Attempt ${attempts + 1}: Quality ${quality}, Size: ${Math.round(currentSize/1024)}KB`)
+        
+        if (currentSize <= targetSizeBytes || quality <= 0.3) {
+          break
+        }
+        
+        // Reduce quality for next attempt
+        quality = Math.max(0.3, quality - 0.15)
+        attempts++
+      }
+      
+      console.log('Final compressed image size:', Math.round(dataUrl.length/1024), 'KB')
+      return dataUrl
+      
+    } catch (error) {
+      console.error('Pica compression failed:', error)
+      // Fallback to simple canvas compression
+      return canvas.toDataURL('image/jpeg', 0.6)
+    }
+  }
 
   // 生成报告文本内容
   const generateReportText = (data: FormData) => {
@@ -217,8 +288,11 @@ MBTI: ${data.mbti || "未填写"}
       tempContainer.appendChild(clonedReport)
       document.body.appendChild(tempContainer)
 
+      // Use appropriate scale based on format
+      const scale = format === 'pdf' ? 1.5 : 1.5 // Better starting resolution for pica
+      
       const canvas = await html2canvas(tempContainer, {
-        scale: format === 'pdf' ? 1.5 : 2,
+        scale,
         useCORS: true,
         allowTaint: false,
         backgroundColor,
@@ -370,12 +444,33 @@ ${reportContent}
 此报告由梦幻问卷调查应用生成 ✨
       `.trim()
 
-      // 默认包含长图，生成图片
+      // 生成高质量压缩图片
       let imageDataUrl = ""
+      let imageAttachment = null
+      
       try {
+        console.log('Generating image for email...')
         const canvas = await generateCanvas('image')
-        imageDataUrl = canvas.toDataURL('image/png', 0.8) // 压缩图片以适应邮件
-        emailBody += "\n\n📸 报告长图已生成，请查看附件。"
+        
+        // Use Pica for high-quality compression
+        imageDataUrl = await compressImageWithPica(canvas, 3000) // Target 3MB
+        
+        // Check final size and prepare attachment
+        const sizeKB = Math.round(imageDataUrl.length / 1024)
+        console.log(`Final image size: ${sizeKB}KB`)
+        
+        if (sizeKB < 4000) { // Less than 4MB in base64
+          imageAttachment = {
+            filename: '梦幻问卷调查报告.jpg',
+            content: imageDataUrl.split(',')[1], // Remove data:image/jpeg;base64, prefix
+            contentType: 'image/jpeg'
+          }
+          emailBody += "\n\n📸 报告长图已生成，请查看附件。"
+        } else {
+          console.warn('Image still too large after compression:', sizeKB, 'KB')
+          emailBody += "\n\n⚠️ 图片压缩后仍较大，建议使用下载功能获取完整图片。"
+        }
+        
       } catch (error) {
         console.error('Failed to generate image for email:', error)
         emailBody += "\n\n⚠️ 图片生成失败，仅包含文本内容。"
@@ -403,7 +498,7 @@ ${reportContent}
         if (imageDataUrl) {
           // 自动下载图片供用户手动添加
           const link = document.createElement('a')
-          link.download = '梦幻问卷调查报告_邮件附件.png'
+          link.download = '梦幻问卷调查报告_邮件附件.jpg'
           link.href = imageDataUrl
           link.click()
           
@@ -435,12 +530,8 @@ ${reportContent}
           }
 
           // 如果包含图片，添加到请求数据中
-          if (imageDataUrl) {
-            emailData.imageAttachment = {
-              filename: '梦幻问卷调查报告.png',
-              content: imageDataUrl.split(',')[1], // 移除data:image/png;base64,前缀
-              contentType: 'image/png'
-            }
+          if (imageAttachment) {
+            emailData.imageAttachment = imageAttachment
           }
 
           console.log('Sending email via API...')
@@ -453,8 +544,24 @@ ${reportContent}
             body: JSON.stringify(emailData)
           })
 
-          const responseData = await response.json()
-          console.log('API Response:', responseData)
+          console.log('Response status:', response.status)
+          console.log('Response ok:', response.ok)
+
+          let responseData
+          let responseText = ''
+          try {
+            // First, get the response as text to see what we're dealing with
+            responseText = await response.text()
+            console.log('Raw response text:', responseText.substring(0, 500))
+            
+            // Try to parse as JSON
+            responseData = JSON.parse(responseText)
+          } catch (parseError) {
+            console.error('Failed to parse response JSON:', parseError)
+            console.error('Response was:', responseText)
+            console.error('Response headers:', Object.fromEntries(response.headers.entries()))
+            throw new Error(`服务器返回了无效的响应格式。状态码: ${response.status}`)
+          }
 
           if (!response.ok) {
             // 显示详细的错误信息
@@ -462,7 +569,9 @@ ${reportContent}
             console.error('API Error Details:', responseData)
             
             // 根据错误类型提供不同的提示
-            if (response.status === 503) {
+            if (response.status === 413) {
+              alert(`邮件内容过大：邮件包含的图片附件超过了服务器限制。\n\n建议：\n1. 使用"邮件客户端发送"方式\n2. 或使用下载功能保存报告\n\n💕`)
+            } else if (response.status === 503) {
               alert(`邮件服务配置错误：${errorMessage}\n\n请检查环境变量配置，或使用邮件客户端发送方式。💕`)
             } else if (response.status === 400) {
               alert(`请求参数错误：${errorMessage}\n\n请检查邮箱地址格式是否正确。💕`)
@@ -493,7 +602,7 @@ ${reportContent}
             
             if (imageDataUrl) {
               const link = document.createElement('a')
-              link.download = '梦幻问卷调查报告_邮件附件.png'
+              link.download = '梦幻问卷调查报告_邮件附件.jpg'
               link.href = imageDataUrl
               link.click()
               
@@ -628,6 +737,14 @@ ${reportContent}
             返回
           </Button>
           <div className="flex gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setIsDownloadDialogOpen(true)}
+              className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white border-none hover:from-pink-600 hover:to-rose-600 shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              <Download className="h-4 w-4" />
+              下载报告
+            </Button>
             <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
               <DialogTrigger asChild>
                 <Button
@@ -639,14 +756,6 @@ ${reportContent}
                 </Button>
               </DialogTrigger>
             </Dialog>
-            <Button
-              variant="outline"
-              onClick={() => setIsDownloadDialogOpen(true)}
-              className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white border-none hover:from-pink-600 hover:to-rose-600 shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <Download className="h-4 w-4" />
-              下载报告
-            </Button>
           </div>
         </div>
 
@@ -1265,9 +1374,6 @@ ${reportContent}
                 <Mail className="h-6 w-6" />
                 💕 发送梦幻报告
               </DialogTitle>
-              <DialogDescription className="text-pink-600">
-                选择收件人和发送方式
-              </DialogDescription>
             </DialogHeader>
             
             <div className="space-y-6 py-4">
